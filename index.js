@@ -16,7 +16,7 @@ app.use(morgan("combined"));
 
 // Set application properties
 app.set("host", process.env.HOST || "0.0.0.0");
-app.set("port", process.env.PORT0 || 3000);
+app.set("port", process.env.PORT0 || 8080);
 app.set("x-powered-by", false);
 app.set("etag", false);
 
@@ -35,14 +35,14 @@ if (process.env.FEBL_CORS_WHITELIST) {
     }
     // Log CORS whitelist
     console.log("Using CORS whitelist of " + whitelist);
-// Otherwise enable all origins
+    // Otherwise enable all origins
 } else {
     enableAll = true;
 }
 
 // CORS middleware handler
 var corsOptions = {
-    origin: function(origin, callback){
+    origin: function(origin, callback) {
         if (whitelist.length > 0) {
             var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
             callback(null, originIsWhitelisted);
@@ -58,9 +58,9 @@ var corsOptions = {
 app.get("/events", cors(corsOptions), function(req, res) {
 
     if (!req.query.lat || !req.query.lng) {
-        res.status(500).json({message: "Please specify the lat and lng parameters!"});
+        res.status(500).json({ message: "Please specify the lat and lng parameters!" });
     } else if (!req.query.accessToken && !process.env.FEBL_ACCESS_TOKEN) {
-        res.status(500).json({message: "Please specify an Access Token, either as environment variable or as accessToken parameter!"});
+        res.status(500).json({ message: "Please specify an Access Token, either as environment variable or as accessToken parameter!" });
     } else {
 
         var options = {};
@@ -100,12 +100,12 @@ app.get("/events", cors(corsOptions), function(req, res) {
         var es = new EventSearch(options);
 
         // Search and handle results
-        es.search().then(function (events) {
+        es.search().then(function(events) {
             res.json(events);
-        }).catch(function (error) {
+        }).catch(function(error) {
             res.status(500).json(error);
         });
-        
+
     }
 
 });
