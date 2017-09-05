@@ -4,6 +4,7 @@
 var express = require("express");
 var morgan = require("morgan");
 var cors = require("cors");
+var envs = require('envs');
 
 // Own modules
 var EventSearch = require("facebook-events-by-location-core");
